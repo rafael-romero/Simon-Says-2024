@@ -1,0 +1,69 @@
+body {
+  background-color: #2e2727;
+}
+
+#titulo {
+  font-size: 4em;
+}
+
+.texto {
+  text-align: center;
+  font-size: 2em;
+  color: #fff;
+}
+
+.informacion {
+  text-align:center;
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor-botones {
+  width: 40vw;
+  height: 75vh;
+  display: grid;
+  grid-template-areas:
+    "btn-verde btn-rojo"
+    "btn-azul btn-amarillo";
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  justify-items: center;
+  margin: auto;
+}
+
+#btn-jugar{
+  align-self: center;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 15%;
+  font-size: 1.5em;
+}
+
+.botones {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+
+#btn-verde {
+  background-color: green;
+  grid-area: btn-verde;
+}
+
+#btn-rojo {
+  background-color: red;
+  grid-area: btn-rojo;
+}
+
+#btn-azul {
+  background-color: blue;
+  grid-area: btn-azul;
+}
+
+#btn-amarillo {
+  background-color: yellow;
+  grid-area: btn-amarillo;
+}

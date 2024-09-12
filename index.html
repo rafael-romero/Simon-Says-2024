@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>Simon Says</title>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel='stylesheet' type='text/css' media='screen' href='./css/main.css'>
-  
-</head>
-<body>
-  
-  <script src='main.js'></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Simon Says</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./css/main.css"
+    />
+  </head>
+  <body>
+    <header>
+      <h1 id="titulo" class="texto">Simon Says</h1>
+      <div class="informacion">
+        <span id="numero-de-rondas" class="texto">Ronda---</span>
+        <span id="estado" class="texto">hola</span>
+      </div>
+    </header>
+    <main>
+      <button type="button" id="btn-jugar">Jugar</button>
+      <div class="contenedor-botones">
+        <button type="button" id="btn-verde" class="botones"></button>
+        <button type="button" id="btn-rojo" class="botones"></button>
+        <button type="button" id="btn-azul" class="botones"></button>
+        <button type="button" id="btn-amarillo" class="botones"></button>
+      </div>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
 </html>
