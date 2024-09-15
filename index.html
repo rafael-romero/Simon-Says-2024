@@ -12,21 +12,27 @@
       href="./css/main.css"
     />
   </head>
-  <body>
+  <body class="fondo-simon-dice">
     <header>
-      <h1 id="titulo" class="texto">Simon Says</h1>
+      <h1 id="titulo" class="oculto">SIMON SAYS</h1>
       <div class="informacion">
-        <span id="numero-de-rondas" class="texto">Ronda---</span>
-        <span id="estado" class="texto">hola</span>
+        <span id="numero-de-rondas" class="texto oculto" ></span>
+        <span id="estado" class="texto oculto" ></span>
       </div>
     </header>
-    <main>
+    <main >
       <button type="button" id="btn-jugar">Jugar</button>
+      <audio src="sounds/game-start-6104.mp3" id="sonido-comienzo-del-juego"></audio>
+      <audio src="sounds/negative_beeps-6008.mp3" id="sonido-perdedor"></audio>
       <div class="contenedor-botones">
         <button type="button" id="btn-verde" class="botones"></button>
+        <audio src="sounds/triangle-beep-short-4-185307.mp3" id="sonido-btn-verde"></audio>
         <button type="button" id="btn-rojo" class="botones"></button>
+        <audio src="sounds/triangle-beep-short-5-185308.mp3" id="sonido-btn-rojo"></audio>
         <button type="button" id="btn-azul" class="botones"></button>
+        <audio src="sounds/triangle-beep-short-6-185309.mp3" id="sonido-btn-azul"></audio>
         <button type="button" id="btn-amarillo" class="botones"></button>
+        <audio src="sounds/triangle-beep-short-8-185311.mp3" id="sonido-btn-amarillo"></audio>
       </div>
     </main>
 
