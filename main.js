@@ -2,21 +2,26 @@ let numeroDeRondas = 0;
 let jugadasPc = [];
 let jugadasUsuario = [];
 const colores = ["rojo", "verde", "azul", "amarillo"];
+const $botones = document.querySelectorAll(".botones");
+const $btnJugar = document.querySelector("#btn-jugar");
 
-function habilitarBotones() {
-  $botones.forEach((boton) => {
+function habilitarBotones(botones) {
+  botones.forEach((boton) => {
     boton.disabled = false;
   });
 }
 
-function deshabilitarBotones() {
-  $botones.forEach((boton) => {
+function deshabilitarBotones(botones) {
+  botones.forEach((boton) => {
     boton.disabled = true;
   });
 }
 
-function colocarTextoEnElemento(elemento, texto) {
-  document.querySelector(`#${elemento}`).textContent = texto;
+function colocarTextoEnElemento(elemento, texto, color) {
+  const mensaje = document.querySelector(`#${elemento}`);
+  mensaje.textContent = texto;
+  mensaje.classList.remove("verde", "rojo", "amarillo", "naranja", "blanco");
+  mensaje.classList.add(color);
 }
 
 function accionarBoton(colorElegido) {
@@ -37,7 +42,7 @@ function accionarBoton(colorElegido) {
   }
 }
 
-function mostrarJugadasDePc() {
+function mostrarJugadasDePc(jugadasPc) {
   const unSegundo = 1000;
   jugadasPc.forEach((jugada, index) => {
     const tiempoDeLaJugadaPc = (index + 1) * unSegundo;
@@ -45,30 +50,40 @@ function mostrarJugadasDePc() {
   });
 }
 
-function elegirNumeroRandom() {
+function elegirNumeroRandom(colores) {
   const cantidadDeColores = colores.length;
   return Math.floor(Math.random() * cantidadDeColores);
 }
 
-function realizarJugadaPc() {
-  const numeroElegido = elegirNumeroRandom();
+function realizarJugadaPc(jugadasPc) {
+  const numeroElegido = elegirNumeroRandom(colores);
   jugadasPc.push(colores[numeroElegido]);
+}
+
+function mostrarElemento(elemento) {
+  document.querySelector(`#${elemento}`).classList.remove("oculto");
+  document.querySelector(`#${elemento}`).classList.add("visible");
 }
 
 function desarrollarJuego() {
   numeroDeRondas++;
-  colocarTextoEnElemento("numero-de-rondas", `RONDA NUMERO: ${numeroDeRondas}`);
   const unSegundo = 1000;
   const textoTurnoDeLaPc = "TURNO DE LA PC";
   const textoProximoTurnoParaJugar = "ES SU TURNO DE JUGAR!!!";
-  colocarTextoEnElemento("estado", textoTurnoDeLaPc);
-  realizarJugadaPc();
-  setTimeout(mostrarJugadasDePc(), unSegundo);
+  colocarTextoEnElemento(
+    "numero-de-rondas",
+    `RONDA NUMERO: ${numeroDeRondas}`,
+    "blanco"
+  );
+  mostrarElemento("numero-de-rondas");
+  colocarTextoEnElemento("estado", textoTurnoDeLaPc, "amarillo");
+  realizarJugadaPc(jugadasPc);
+  setTimeout(mostrarJugadasDePc, unSegundo, jugadasPc);
   jugadasUsuario = [];
   const tiempoDeJugarLaPc = (jugadasPc.length + 1.5) * unSegundo;
   setTimeout(() => {
-    colocarTextoEnElemento("estado", textoProximoTurnoParaJugar);
-    habilitarBotones();
+    colocarTextoEnElemento("estado", textoProximoTurnoParaJugar, "verde");
+    habilitarBotones($botones);
   }, tiempoDeJugarLaPc + unSegundo);
 }
 
@@ -78,65 +93,66 @@ function reiniciarContadores() {
   numeroDeRondas = 0;
 }
 
-function iniciarJuego() {
-  const dosSegundos = 2000;
-  const textoBienvenido = "BIENVENIDO, VAMOS A JUGAR!!!";
-  reiniciarContadores();
-  colocarTextoEnElemento("estado", textoBienvenido);
-  setTimeout(desarrollarJuego, dosSegundos);
-}
-
 function ocultarElemento(elemento) {
   document.querySelector(`#${elemento}`).classList.remove("visible");
   document.querySelector(`#${elemento}`).classList.add("oculto");
 }
 
-function mostrarElemento(elemento) {
-  document.querySelector(`#${elemento}`).classList.remove("oculto");
-  document.querySelector(`#${elemento}`).classList.add("visible");
+function iniciarJuego() {
+  const dosSegundos = 2000;
+  const textoBienvenido = "BIENVENIDO, VAMOS A JUGAR!!!";
+  reiniciarContadores();
+  colocarTextoEnElemento("estado", textoBienvenido, "naranja");
+  mostrarElemento("estado");
+  setTimeout(desarrollarJuego, dosSegundos);
 }
 
-const $btnJugar = document.querySelector("#btn-jugar");
+function reproducirSonido(elemento) {
+  document.querySelector(`#${elemento}`).play();
+}
+
 $btnJugar.onclick = function () {
-  const unSegundo = 1000;
-  deshabilitarBotones();
-  mostrarElemento("numero-de-rondas");
-  mostrarElemento("estado");
+  deshabilitarBotones($botones);
   ocultarElemento("btn-jugar");
-  document.querySelector("#sonido-comienzo-del-juego").play();
+  reproducirSonido("sonido-comienzo-del-juego");
   iniciarJuego();
 };
 
-function habilitarJugarNuevamente() {
+function habilitarJugarNuevamente(btnJugar) {
   const textoJugarNuevamente = "JUGAMOS NUEVAMENTE?";
-  $btnJugar.textContent = textoJugarNuevamente;
+  btnJugar.textContent = textoJugarNuevamente;
   mostrarElemento("btn-jugar");
+  colocarTextoEnElemento("numero-de-rondas", "", "blanco");
 }
 
 function finalizarPartida() {
   const unSegundo = 1000;
   const textoPerdiste = "PERDISTE!!!";
-  deshabilitarBotones();
-  colocarTextoEnElemento("estado", textoPerdiste);
-  setTimeout(habilitarJugarNuevamente, unSegundo);
-  document.querySelector("#sonido-perdedor").play();
+  deshabilitarBotones($botones);
+  reproducirSonido("sonido-perdedor");
+  colocarTextoEnElemento("estado", textoPerdiste, "rojo");
+  setTimeout(() => {
+    ocultarElemento("numero-de-rondas");
+    ocultarElemento("estado");
+    habilitarJugarNuevamente($btnJugar);
+  }, unSegundo);
+  
 }
 
 function compararJugadas() {
   const unSegundo = 1000;
   for (let i = 0; i < jugadasUsuario.length; i++) {
     if (jugadasUsuario[i] !== jugadasPc[i]) {
-      deshabilitarBotones();
+      deshabilitarBotones($botones);
       return setTimeout(finalizarPartida, unSegundo);
     }
   }
   if (jugadasUsuario.length === jugadasPc.length) {
-    deshabilitarBotones();
+    deshabilitarBotones($botones);
     setTimeout(desarrollarJuego, unSegundo);
   }
 }
 
-const $botones = document.querySelectorAll(".botones");
 $botones.forEach((boton) => {
   boton.addEventListener("click", (event) => {
     const idDelBotonSeleccionado = event.target.id;
@@ -146,3 +162,5 @@ $botones.forEach((boton) => {
     compararJugadas();
   });
 });
+
+deshabilitarBotones($botones);
